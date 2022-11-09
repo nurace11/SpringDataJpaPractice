@@ -27,7 +27,7 @@ class StudentTest {
     public void createStudentWithGuardian() {
         Guardian guardian = Guardian.builder()
                 .email("ggcarlos@gmail.com")
-                .phoneNumber("+7 777 777 7777")
+                .mobile("+7 777 777 7777")
                 .name("Carlos")
                 .build();
 
@@ -53,6 +53,21 @@ class StudentTest {
     @Test
     public void printStudentByGuardianName() {
         System.out.println(studentRepository.findStudentByGuardianName("Carlos"));
+    }
+
+    @Test
+    public void getStudentWhereNameLike() {
+        System.out.println(studentRepository.getStudentsWhereNameLike("%us"));
+    }
+
+    @Test
+    public void getStudentWhereNameLikeJPQL() {
+        System.out.println(studentRepository.getStudentsWhereNameLikeJPQL("%u%"));
+    }
+
+    @Test
+    public void getStudentByEmail() {
+        System.out.println(studentRepository.getStudentByEmail("lolo123@gmail.com.uk"));
     }
 
 
