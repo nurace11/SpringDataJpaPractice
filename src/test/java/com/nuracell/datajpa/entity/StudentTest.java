@@ -69,7 +69,4 @@ class StudentTest {
     public void getStudentByEmail() {
         System.out.println(studentRepository.getStudentByEmail("lolo123@gmail.com.uk"));
     }
-
-
-
 }

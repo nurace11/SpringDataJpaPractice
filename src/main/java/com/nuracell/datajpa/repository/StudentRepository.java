@@ -8,7 +8,6 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
-
     List<Student> findAllByName(String name);
 
     Student findByName(String name); // can return more than 1 student, because name is not unique. TODO: change return type to List
