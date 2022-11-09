@@ -25,8 +25,8 @@ import javax.persistence.Embeddable;
                 column = @Column(name = "guardian_email")
         ),
         @AttributeOverride(
-                name = "mobile",
-                column = @Column(name = "guardian_mobile")
+                name = "phoneNumber",
+                column = @Column(name = "phone_number")
         )
 })
 public class Guardian {
