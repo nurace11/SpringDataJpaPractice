@@ -55,6 +55,21 @@ class StudentTest {
         System.out.println(studentRepository.findStudentByGuardianName("Carlos"));
     }
 
+    @Test
+    public void getStudentWhereNameLike() {
+        System.out.println(studentRepository.getStudentsWhereNameLike("%us"));
+    }
+
+    @Test
+    public void getStudentWhereNameLikeJPQL() {
+        System.out.println(studentRepository.getStudentsWhereNameLikeJPQL("%u%"));
+    }
+
+    @Test
+    public void getStudentByEmail() {
+        System.out.println(studentRepository.getStudentByEmail("lolo123@gmail.com.uk"));
+    }
+
 
 
 }
