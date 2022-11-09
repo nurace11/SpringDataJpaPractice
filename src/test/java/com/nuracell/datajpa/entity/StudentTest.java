@@ -65,6 +65,7 @@ class StudentTest {
         System.out.println(studentRepository.getStudentsWhereNameLikeJPQL("%u%"));
     }
 
+
     @Test
     public void getStudentByEmail() {
         System.out.println(studentRepository.getStudentByEmail("lolo123@gmail.com.uk"));
