@@ -27,7 +27,7 @@ class StudentTest {
     public void createStudentWithGuardian() {
         Guardian guardian = Guardian.builder()
                 .email("ggcarlos@gmail.com")
-                .phoneNumber("+7 777 777 7777")
+                .mobile("+7 777 777 7777")
                 .name("Carlos")
                 .build();
 
