@@ -29,4 +29,10 @@ public class StudentService {
         );
     }
 
+    public void updateStudentNameById(Long id, String name) {
+        Student student = repository.findById(id).orElseThrow();
+        student.setName(name);
+        repository.save(student);
+    }
+
 }

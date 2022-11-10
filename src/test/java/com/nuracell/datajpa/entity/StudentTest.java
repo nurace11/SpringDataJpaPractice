@@ -1,6 +1,7 @@
 package com.nuracell.datajpa.entity;
 
 import com.nuracell.datajpa.repository.StudentRepository;
+import com.nuracell.datajpa.service.StudentService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +11,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 class StudentTest {
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    StudentService studentService;
 
     @Test
     @Order(1)
