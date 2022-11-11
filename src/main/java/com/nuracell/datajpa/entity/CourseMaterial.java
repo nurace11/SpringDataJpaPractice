@@ -27,7 +27,9 @@ public class CourseMaterial {
 
     @OneToOne(
             cascade = CascadeType.ALL,
-            fetch = FetchType.LAZY)
+            fetch = FetchType.LAZY,
+            optional = false // courseMaterial is required when saving a course
+    )
     @JoinColumn(
             name = "course_id",               // column name in 'course' table
             referencedColumnName = "courseId" // field name in Course class

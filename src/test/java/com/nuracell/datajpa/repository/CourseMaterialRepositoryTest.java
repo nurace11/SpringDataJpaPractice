@@ -25,7 +25,7 @@ class CourseMaterialRepositoryTest {
 
         CourseMaterial courseMaterial = CourseMaterial.builder()
                 .url("www.google.com")
-                .course(course)
+                .course(course) // with 'optional = false' parameter in @OneToOne annotation, course is required in courseMaterial
                 .build();
 
         repository.save(courseMaterial);

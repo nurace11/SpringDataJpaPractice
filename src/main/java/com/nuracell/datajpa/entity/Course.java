@@ -32,4 +32,14 @@ public class Course {
             mappedBy = "course" // field name in the CourseMaterial class
     )
     private CourseMaterial courseMaterial;
+
+    // Define relationship in ManyToOne object, it is easier to read and more understandable than defining @OneToMany relation
+    @ManyToOne(
+            cascade = CascadeType.ALL
+    )
+    @JoinColumn (
+            name = "teacher_id",
+            referencedColumnName = "teacherId"
+    )
+    private Teacher teacher;
 }
