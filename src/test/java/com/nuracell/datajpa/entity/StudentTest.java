@@ -12,9 +12,6 @@ class StudentTest {
     @Autowired
     StudentRepository studentRepository;
 
-    @Autowired
-    StudentService studentService;
-
     @Test
     @Order(1)
     public void createStudent() {
@@ -73,5 +70,11 @@ class StudentTest {
     @Test
     public void getStudentByEmail() {
         System.out.println(studentRepository.getStudentByEmail("lolo123@gmail.com.uk"));
+    }
+
+
+    @Test
+    public void updateStudentNameByEmailTest() {
+        studentRepository.updateStudentNameByEmail("abobus", "qwerqwer@gmail.com");
     }
 }
