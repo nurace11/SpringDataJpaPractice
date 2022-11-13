@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
 
+    Page<Course> findAll(Pageable pageable);
+
     Page<Course> findByTitleContaining(String title, Pageable pageable);
 }

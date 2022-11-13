@@ -9,10 +9,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.IntStream;
 
 @SpringBootTest
 class CourseRepositoryTest {
@@ -106,5 +108,88 @@ class CourseRepositoryTest {
         List<Course> courses = repository.findByTitleContaining("D", firstPageTenRecords).getContent();
 
         System.out.println(courses);
+    }
+
+    @Test
+    public void getAllPageable() {
+        int size = 2;
+        Page<Course> coursePage = repository.findAll(PageRequest.of(0,size));
+
+        System.out.println("coursePage.getTotalPages() = " + coursePage.getTotalPages());
+        System.out.println("coursePage.getTotalElements() = " + coursePage.getTotalElements());
+        System.out.println(coursePage.getContent());
+
+        IntStream intStream = IntStream.range(0, coursePage.getTotalPages());
+
+        if(coursePage.getTotalPages() > 0) {
+            intStream.forEach(
+                    e -> {
+                        System.out.println(e + " " + repository.findAll(PageRequest.of(e, size)).getContent());
+                    }
+            );
+        }
+    }
+
+    @Test
+    public void getAllPageableSortedByTitle() {
+        int size = 2;
+        Sort sortByTitle = Sort.by("title");
+        Sort sortByTitleDesc = Sort.by("title").descending();
+        Page<Course> coursePage = repository.findAll(PageRequest.of(0, size, sortByTitleDesc));
+
+        IntStream intStream = IntStream.range(0, coursePage.getTotalPages());
+
+        if(coursePage.getTotalPages() > 0) {
+            intStream.forEach(
+                    e -> {
+                        System.out.println(e + " " + repository.findAll(PageRequest.of(e, size, sortByTitleDesc)).getContent());
+                    }
+            );
+        }
+    }
+
+    //        System.out.println(courseClass.getDeclaredFields()[0].toString().substring(courseClass.getDeclaredFields()[0].toString().lastIndexOf("."))); // ong com.nuracell.datajpa.entity.Course.courseId
+    @Test
+    public void getAllPageableSortedByEverything() {
+        Class<Course> courseClass = Course.class;
+
+        List<String> fields = Arrays.stream(courseClass.getDeclaredFields())
+                .map(
+                        e -> {
+                            String s = e.toString();
+                            return s.substring(s.lastIndexOf(".") + 1);
+                        }
+                )
+                .toList();
+
+        List<Sort> sorts = new ArrayList<>(fields.stream().map(Sort::by).toList()); //fields.stream().map(Sort::by).toList();
+
+/*        List<Sort> sortsDesc = fields
+                .stream()
+                .map(e -> Sort.by(e).descending())
+                .toList();*/
+
+        sorts.addAll(fields
+                .stream()
+                .map(e -> Sort.by(e).descending())
+                .toList());
+
+        int size = 2;
+        Page<Course> coursePage = repository.findAll(PageRequest.of(0, size));
+        AtomicReference<IntStream> intStream = new AtomicReference<>(IntStream.range(0, coursePage.getTotalPages()));
+
+        if(coursePage.getTotalPages() > 0) {
+            sorts.forEach(
+                    sort -> {
+                        System.out.println("\n SORTING: " + sort +  "");
+                        intStream.set(IntStream.range(0, coursePage.getTotalPages()));
+                        intStream.get().forEach(
+                                e -> System.out.println(e + " " + repository.findAll(PageRequest.of(e, size, sort)).getContent())
+                        );
+                        System.out.println("Sort: " + sort +  " DONE \n");
+                    }
+
+            );
+        }
     }
 }
