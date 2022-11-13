@@ -192,4 +192,10 @@ class CourseRepositoryTest {
             );
         }
     }
+
+    @Test
+    public void paginationTest() {
+        System.out.println(repository.findAll(PageRequest.of(0, 3)).getContent() + "\n");
+        System.out.println(repository.findAll(PageRequest.of(1, 2)).getContent());
+    }
 }
