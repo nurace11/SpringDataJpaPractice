@@ -1,6 +1,7 @@
 package com.nuracell.datajpa.entity;
 
 import com.nuracell.datajpa.repository.StudentRepository;
+import com.nuracell.datajpa.service.StudentService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -69,5 +70,11 @@ class StudentTest {
     @Test
     public void getStudentByEmail() {
         System.out.println(studentRepository.getStudentByEmail("lolo123@gmail.com.uk"));
+    }
+
+
+    @Test
+    public void updateStudentNameByEmailTest() {
+        studentRepository.updateStudentNameByEmail("abobus", "qwerqwer@gmail.com");
     }
 }
