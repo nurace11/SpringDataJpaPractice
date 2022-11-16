@@ -1,15 +1,14 @@
 package com.nuracell.datajpa.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 
 import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
 @Data
 @Builder
 @Table(
@@ -19,6 +18,7 @@ import javax.persistence.*;
                 columnNames = "email_address"
         )
 )
+
 public class Student {
     @Id
     @SequenceGenerator(
@@ -31,14 +31,17 @@ public class Student {
             generator = "student_generator"
     )
     private Long id;
+    @NonNull
     private String name;
 
+    @NonNull
     @Column(
             name = "email_address",
             nullable = false
     )
     private String email;
 
+    @NonNull
     @Embedded
     Guardian guardian;
 }
