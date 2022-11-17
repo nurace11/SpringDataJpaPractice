@@ -10,6 +10,7 @@ import org.junit.jupiter.engine.discovery.predicates.IsNestedTestClass;
 
 import java.lang.management.GarbageCollectorMXBean;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
@@ -46,10 +47,10 @@ public class AssertJAssertions {
     }
 
 // ------------------------------------ OBJECT OF ANY OTHER CLASS ------------------------------------
-    @Test
-    public void assertJAssertThatMethodsOnAnyClass() {
-        Calculator testCalc = new Calculator(10, "wsxEDCrfvTGByhnUJMik,OL>p;/{\"]");
+    Calculator testCalc = new Calculator(10, "wsxEDCrfvTGByhnUJMik,OL>p;/{\"]");
 
+    @Test
+    public void assertJAssertMethodsOnAnyClass() {
         assertThat(calculator).isEqualTo(calculator);
         assertThat(calculator).isNotEqualTo(testCalc);
 
@@ -57,20 +58,6 @@ public class AssertJAssertions {
         assertThat(calculator).isIn(List.of(calculator, testCalc));
         assertThat(calculator).isNotIn(testCalc, new Calculator());
         assertThat(calculator).isNotIn(List.of(testCalc, new Calculator()));
-
-        //        assertThat(calculator).isNotExactlyInstanceOf()
-//        assertThat(calculator).doesNotHaveToString()
-//        assertThat(calculator).hasAllNullFieldsOrProperties()
-//        assertThat(calculator).hasAllNullFieldsOrPropertiesExcept()
-//        assertThat(calculator).hasFieldOrProperty()
-//        assertThat(calculator).hasOnlyFields()
-//        assertThat(calculator).hasToString()
-//        assertThat(calculator).hasFieldOrPropertyWithValue()
-        assertThat(calculator).hasSameClassAs(calculator);
-        assertThat(calculator).hasSameHashCodeAs(calculator);
-        assertThat(calculator).doesNotHaveSameClassAs("immutable String object");
-        assertThat(calculator).doesNotHaveSameHashCodeAs(testCalc);
-
 
         assertThat(calculator).isNotNull();
         System.out.println("assertThat(testCalc).hashCode() = " + assertThat(testCalc).hashCode());
@@ -85,8 +72,31 @@ public class AssertJAssertions {
         System.out.println("assertThat(calculator).toString() = " + assertThat(calculator).toString());
         System.out.println(assertThat(calculator).info);
 
+        assertThat(calculator).returns(calculator, (e) -> calculator);
+//        assertThat(calculator).describedAs()
+//        assertThat(calculator).getWritableAssertionInfo()
+//        assertThat(calculator).extracting()
+//        assertThat(calculator).withThreadDumpOnError();
+//        assertThat(calculator).withRepresentation();
+//        assertThat(calculator).withFailMessage();
 
 
+//        assertThat(calculator).usingRecursiveComparison();
+//        assertThat(calculator).usingComparator();
+//        assertThat(calculator).usingComparatorForFields();
+//        assertThat(calculator).usingComparatorForType();
+
+        assertThat(calculator).satisfies();
+        assertThat(calculator).satisfiesAnyOf();
+
+//        assertThat(calculator).asList();
+//        assertThat(calculator).overridingErrorMessage();
+
+//        assertThat(calculator).matches();
+    }
+
+    @Test
+    public void assertConditionableMethods() {
         // Conditions. is, isNot, has, doesNotHave
         Condition<Calculator> complicatedCalculator = new Condition<>((c) -> c.getButtons() > 40, "our calculator is complicated calculator");
         Condition<Calculator> simpleCalculator = new Condition<>((c) -> c.getButtons() < 15 , "our calculator is simple calculator");
@@ -102,6 +112,30 @@ public class AssertJAssertions {
         assertThat(calculator).is(not(simpleCalculator));
         assertThat(calculator).is(not(calculatorNameCali));
         assertThat(calculator).is(anyOf(complicatedCalculator, calculatorNameCalculogus, calculatorNameCali, simpleCalculator));
+    }
+
+    @Test
+    public void assertReflectionMethods() {
+        assertThat(calculator).isNotExactlyInstanceOf(Object.class);
+        assertThat(calculator).isExactlyInstanceOf(Calculator.class);
+
+//        assertThat(testCalc).hasAllNullFieldsOrProperties(); //test fails
+        assertThat(calculator).hasAllNullFieldsOrPropertiesExcept("name", "buttons");
+        assertThat(calculator).hasFieldOrProperty("name");
+        assertThat(calculator).hasFieldOrProperty("buttons");
+        assertThat(calculator).hasFieldOrPropertyWithValue("buttons", 50);
+        assertThat(calculator).hasFieldOrPropertyWithValue("name", "Calculogus");
+        assertThat(calculator).hasOnlyFields("buttons", "name");
+//        assertThat(calculator).hasOnlyFields("buttons"); //test fails
+
+        assertThat(calculator).hasToString(calculator.toString());
+        assertThat(calculator).doesNotHaveToString("ok");
+        assertThat(calculator).hasSameClassAs(calculator);
+        assertThat(calculator).hasSameHashCodeAs(calculator);
+        assertThat(calculator).doesNotHaveSameClassAs("immutable String object");
+        assertThat(calculator).doesNotHaveSameHashCodeAs(testCalc);
+
+        assertThat(calculator).isOfAnyClassIn(Calculator.class, CalculatorInheritor.class);
     }
 
 // ------------------------------------ INSTANCE_OF ------------------------------------
