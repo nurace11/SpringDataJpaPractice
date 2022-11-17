@@ -37,4 +37,12 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
             value = "UPDATE tbl_student SET name = ?1 WHERE email_address = ?2"
     )
     int updateStudentNameByEmail(String name, String email);
+
+    @Query(
+            "SELECT CASE WHEN COUNT(s) > 0 THEN " +
+                    "TRUE ELSE FALSE END " +
+                    "FROM Student s " +
+                    "WHERE s.email = ?1"
+    )
+    Boolean selectExistsEmail(String email);
 }
