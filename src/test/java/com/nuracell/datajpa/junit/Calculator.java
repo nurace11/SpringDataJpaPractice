@@ -1,9 +1,18 @@
 package com.nuracell.datajpa.junit;
 
 import com.nuracell.datajpa.junit.exceptions.MultiplyingByFourException;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.junit.jupiter.api.function.Executable;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class Calculator{
+    int buttons;
+    String name;
+
     public int add(int a, int b) {
         return a + b;
     }

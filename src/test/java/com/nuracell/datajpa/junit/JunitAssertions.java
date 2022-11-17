@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.junit.jupiter.api.function.Executable;
+import org.junit.jupiter.api.function.ThrowingSupplier;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -139,7 +140,6 @@ public class JunitAssertions {
                 Set.of(1,5,7),
                 Set.of(1,5,7)
         );
-
     }
 
 
