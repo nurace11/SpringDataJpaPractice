@@ -12,6 +12,11 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
+    @GetMapping("hello")
+    public String hello(@RequestParam(name = "name", defaultValue = "World") String message){
+        return String.format("Hello, %s", message);
+    }
+
     @Autowired
     public StudentController(StudentService studentService) {
         this.studentService = studentService;
