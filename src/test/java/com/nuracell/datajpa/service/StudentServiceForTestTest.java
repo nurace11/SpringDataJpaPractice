@@ -1,37 +1,33 @@
 package com.nuracell.datajpa.service;
 
+import com.nuracell.datajpa.entity.Guardian;
+import com.nuracell.datajpa.entity.Student;
 import com.nuracell.datajpa.repository.StudentRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class StudentServiceForTestTest {
 
     @Mock
     private StudentRepository studentRepository;
-//    private AutoCloseable autoCloseable;
     private StudentServiceForTest underTest;
 
     @BeforeEach
     void setUp() {
-//        autoCloseable = MockitoAnnotations.openMocks(this);
         underTest = new StudentServiceForTest(studentRepository);
     }
-
-/*    @AfterEach
-    void tearDown() throws Exception {
-        autoCloseable.close();
-    }*/
-
     @Test
     void canGetAllStudents() {
         // when
@@ -42,9 +38,47 @@ class StudentServiceForTestTest {
     }
 
     @Test
-    @Disabled
-    void addStudent() {
+    void canAddStudent() {
+        // given
+        Student student = Student.builder()
+                .name("Amougs")
+                .email("qwert@gmail.com")
+                .guardian(Guardian.builder().email("gg@qwe.c").mobile("+1 717171").name("Magnus").build())
+                .build();
+
+        // when
+        underTest.addStudent(student);
+
+        // then
+        ArgumentCaptor<Student> argumentCaptor = ArgumentCaptor.forClass(Student.class);
+
+        verify(studentRepository).save(argumentCaptor.capture());
+
+        assertThat(argumentCaptor.getValue()).isEqualTo(student);
     }
+    @Test
+    void willThrowWhenEmailIsTaken() {
+        // given
+        Student student = Student.builder()
+                .name("Amougs")
+                .email("qwert@gmail.com")
+                .guardian(Guardian.builder().email("gg@qwe.c").mobile("+1 717171").name("Magnus").build())
+                .build();
+
+        given(studentRepository.selectExistsEmail(anyString()/*student.getEmail()*/))
+                .willReturn(true);
+
+        // when
+        // then
+        assertThatThrownBy(() -> underTest.addStudent(student))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Email " + student.getEmail() + " taken");
+
+        // if exception is called, studentRepository will not save a student
+        verify(studentRepository, never()).save(any());
+        ;
+    }
+
 
     @Test
     @Disabled
