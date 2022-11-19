@@ -53,6 +53,6 @@ class StudentRepositoryTest {
     }
 }
 
-sealed interface Numbers permits Aboba {}
-sealed interface Aboba extends Numbers{}
-final class Eager implements Aboba{}
+//sealed interface Numbers permits Aboba {}
+//sealed interface Aboba extends Numbers{}
+//final class Eager implements Aboba{}
