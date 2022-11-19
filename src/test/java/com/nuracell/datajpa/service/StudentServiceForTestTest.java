@@ -12,6 +12,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Random;
 
 import static org.assertj.core.api.AssertionsForClassTypes.*;
 import static org.mockito.Mockito.verify;
@@ -55,6 +58,8 @@ class StudentServiceForTestTest {
         verify(studentRepository).save(argumentCaptor.capture());
 
         assertThat(argumentCaptor.getValue()).isEqualTo(student);
+
+        System.out.println("underTest.getAllStudents() = " + underTest.getAllStudents());
     }
     @Test
     void willThrowWhenEmailIsTaken() {
@@ -81,7 +86,41 @@ class StudentServiceForTestTest {
 
 
     @Test
-    @Disabled
-    void deleteStudent() {
+    void canDeleteStudent() {
+        //given
+        Student student = Student.builder()
+                .id(new Random().nextLong(0,100))
+                .name("Amougs")
+                .email("qwert@gmail.com")
+                .guardian(Guardian.builder().email("gg@qwe.c").mobile("+1 717171").name("Magnus").build())
+                .build();
+
+        given(studentRepository.existsById(student.getId())).willReturn(true);
+
+        underTest.deleteStudent(student.getId());
+
+        verify(studentRepository).existsById(student.getId());
+        verify(studentRepository).deleteById(student.getId());
+    }
+
+    @Test
+    void deleteStudentWillThrow() {
+        //given
+        Student student = Student.builder()
+                .id(new Random().nextLong(0,100))
+                .name("Amougs")
+                .email("qwert@gmail.com")
+                .guardian(Guardian.builder().email("gg@qwe.c").mobile("+1 717171").name("Magnus").build())
+                .build();
+
+        given(studentRepository.existsById(student.getId())).willReturn(false);
+
+        assertThatThrownBy(() -> underTest.deleteStudent(student.getId()))
+                .isInstanceOf(IllegalStateException.class)
+                .hasMessageContaining("Student with id " + student.getId() + " does not exists")
+                .hasMessage("Student with id " + student.getId() + " does not exists");
+
+        verify(studentRepository).existsById(student.getId());
+        verify(studentRepository, never()).deleteById(student.getId());
     }
 }
