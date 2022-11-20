@@ -1,4 +1,4 @@
 package com.nuracell.datajpa.junit;
 
-public class CalculatorInheritor extends Calculator {
+public class CalculatorInheritor extends Calculator{
 }
