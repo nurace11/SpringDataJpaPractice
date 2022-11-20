@@ -12,9 +12,9 @@ import java.util.List;
 public class StudentController {
     private final StudentService studentService;
 
-    @GetMapping("hello")
-    public String hello(@RequestParam(name = "name", defaultValue = "World") String message){
-        return String.format("Hello, %s", message);
+    @GetMapping("/helloStudent")
+    public String helloStudent(@RequestParam(name = "name", defaultValue = "World") String message){
+        return studentService.hello(message);
     }
 
     @Autowired

@@ -25,7 +25,8 @@ class WelcomeControllerTest {
 
     @Test
     void canGetWelcome() {
-        String message = "Garfield";
+        String message = "Garf" +
+                "ield";
         given(serviceMock.getWelcomeMessage(message)).willReturn(
                 "Welcome Garfield!"
         );
