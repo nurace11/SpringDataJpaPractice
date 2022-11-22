@@ -36,4 +36,7 @@ public class StudentService {
     }
 
 
+    public String hello(String message) {
+        return String.format("Hello %s", message);
+    }
 }
