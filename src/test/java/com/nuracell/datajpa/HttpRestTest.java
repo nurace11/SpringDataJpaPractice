@@ -18,6 +18,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -126,9 +127,9 @@ public class HttpRestTest {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = "2022-11-01")
+    @ValueSource(strings = "2022-11-21")
     public void httpArrayTest(String dateFrom) throws Exception {
-        URI uri = buildURI(LocalDate.parse(dateFrom), LocalDate.now());
+        URI uri = buildURI(LocalDate.parse(dateFrom), LocalDate.now(ZoneId.of("-5")));
         HttpResponse<String> response = getResponse(uri);
         ObjectMapper objectMapper = new ObjectMapper();
 
