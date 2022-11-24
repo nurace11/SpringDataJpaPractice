@@ -31,4 +31,49 @@ public class StudentController {
     public Student getStudent(@PathVariable(value = "studentId") Long id) {
         return studentService.getStudentById(id);
     }
+
+    @PostMapping
+    public String saveStudent(@RequestBody Student student) {
+        try {
+            studentService.saveStudent(student);
+            return "Student successfully " + student + " saved";
+        } catch (IllegalStateException e) {
+            return "Error. " + e.getMessage();
+        }
+    }
+
+    @PutMapping(path = "usingString/{studentId}")
+    public String updateStudentString(@PathVariable(value = "studentId") Long id, @RequestBody String newName) {
+        try {
+            studentService.updateStudentNameById(id, newName);
+            return "Student with ID " + id + " has been updated";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error " + e.getMessage();
+        }
+    }
+
+    @PutMapping(path = "{studentId}")
+    public String updateStudent(@PathVariable(value = "studentId") Long id, @RequestBody Student newStudent) {
+        try {
+            studentService.updateStudentNameById(id, newStudent.getName());
+            return "Student with ID " + id + " has been updated";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Error " + e.getMessage();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public String deleteStudent(@PathVariable(value = "id") Long id) {
+        try {
+            studentService.deleteStudentById(id);
+            return "Student with ID " + id + "has been successfully deleted";
+        } catch (Exception e) {
+            return "Error. " + e.getMessage();
+        }
+    }
+
+
+    // TODO: add POST, PUT, DELETE mappings
 }
