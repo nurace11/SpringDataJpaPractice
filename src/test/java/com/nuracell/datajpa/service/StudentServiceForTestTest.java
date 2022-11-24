@@ -89,7 +89,7 @@ class StudentServiceForTestTest {
     void canDeleteStudent() {
         //given
         Student student = Student.builder()
-                .id(new Random().nextLong(0,100))
+                .id(new Random().nextLong(0, 100))
                 .name("Amougs")
                 .email("qwert@gmail.com")
                 .guardian(Guardian.builder().email("gg@qwe.c").mobile("+1 717171").name("Magnus").build())
