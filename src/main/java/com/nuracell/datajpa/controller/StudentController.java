@@ -68,7 +68,7 @@ public class StudentController {
     public String deleteStudent(@PathVariable(value = "id") Long id) {
         try {
             studentService.deleteStudentById(id);
-            return "Student with ID " + id + "has been successfully deleted";
+            return "Student with ID " + id + " has been successfully deleted";
         } catch (Exception e) {
             return "Error. " + e.getMessage();
         }
